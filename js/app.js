@@ -7,6 +7,7 @@ $(document).ready(function () {
     let photoTemplate = $('#photo-template')
     let main = $('main')
     let filter = $('#filter')
+    let keywords = []
     photoTemplate.css({ "display": "none" })
 
     function Gallary(image_url, title, description, keyword, horns) {
@@ -16,6 +17,8 @@ $(document).ready(function () {
         this.keyword = keyword;
         this.horns = horns;
         imgGallary.push(this)
+
+
 
     }
 
@@ -31,9 +34,21 @@ $(document).ready(function () {
         tempPhotoTemplate.css({ "display": "block" })
         main.append(tempPhotoTemplate)
 
+        if (keywords.includes(item.keyword) == false)
+            keywords.push(item.keyword)
+
+
+
     }
 
+    Gallary.prototype.addFliters = function (data) {
+        data.forEach(item => {
+            filter.append(`<option value='${item}'>${item}</option>`)
+        });
 
+
+
+    }
 
 
 
@@ -44,8 +59,13 @@ $(document).ready(function () {
         data.forEach(item => {
             let photo = new Gallary(item.image_url, item.title, item.description, item.keyword, item.horns)
             Gallary.prototype.renderer(photo)
-        });
 
+        })
+
+
+    }).done(() => {
+        console.log(keywords)
+        Gallary.prototype.addFliters(keywords)
     })
 
 
@@ -78,6 +98,7 @@ $(document).ready(function () {
 
         }
     })
-})
 
+
+})
 
